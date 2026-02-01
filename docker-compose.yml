@@ -11,8 +11,13 @@ services:
       - app1
       - app2
       - app3
+      - order1
+      - order2
+      - payment1
+      - payment2
     networks:
       - lb-network
+      - api-network
 
   app1:
     build: .
@@ -51,6 +56,40 @@ services:
     networks:
       - lb-network
 
+  order1:
+    build: ./microservices/order
+    container_name: order1
+    expose:
+      - "3000"
+    networks:
+      - api-network
+
+  order2:
+    build: ./microservices/order
+    container_name: order2
+    expose:
+      - "3000"
+    networks:
+      - api-network
+
+  payment1:
+    build: ./microservices/payment
+    container_name: payment1
+    expose:
+      - "3000"
+    networks:
+      - api-network
+
+  payment2:
+    build: ./microservices/payment
+    container_name: payment2
+    expose:
+      - "3000"
+    networks:
+      - api-network
+
 networks:
   lb-network:
+    driver: bridge
+  api-network:
     driver: bridge
